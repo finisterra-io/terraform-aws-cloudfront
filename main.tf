@@ -147,7 +147,7 @@ resource "aws_cloudfront_distribution" "this" {
       max_ttl     = lookup(i.value, "max_ttl", null)
 
       dynamic "forwarded_values" {
-        for_each = lookup(i.value, "use_forwarded_values", true) ? [true] : []
+        for_each = lookup(i.value, "use_forwarded_values", false) ? [true] : []
 
         content {
           query_string            = lookup(i.value, "query_string", false)
