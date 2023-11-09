@@ -166,7 +166,7 @@ resource "aws_cloudfront_distribution" "this" {
         iterator = l
 
         content {
-          event_type   = l.key
+          event_type   = f.value.event_type
           lambda_arn   = l.value.lambda_arn
           include_body = lookup(l.value, "include_body", null)
         }
@@ -177,7 +177,7 @@ resource "aws_cloudfront_distribution" "this" {
         iterator = f
 
         content {
-          event_type   = f.key
+          event_type   = f.value.event_type
           function_arn = f.value.function_arn
         }
       }
@@ -230,7 +230,7 @@ resource "aws_cloudfront_distribution" "this" {
         iterator = l
 
         content {
-          event_type   = l.key
+          event_type   = f.value.event_type
           lambda_arn   = l.value.lambda_arn
           include_body = lookup(l.value, "include_body", null)
         }
@@ -242,7 +242,7 @@ resource "aws_cloudfront_distribution" "this" {
         iterator = f
 
         content {
-          event_type   = f.key
+          event_type   = f.value.event_type
           function_arn = f.value.function_arn
         }
       }
