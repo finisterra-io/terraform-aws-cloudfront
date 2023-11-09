@@ -236,8 +236,9 @@ resource "aws_cloudfront_distribution" "this" {
         }
       }
 
+
       dynamic "function_association" {
-        for_each = lookup(i.value, "function_association", [])
+        for_each = [lookup(i.value, "function_association", null)]
         iterator = f
 
         content {
