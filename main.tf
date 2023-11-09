@@ -147,16 +147,17 @@ resource "aws_cloudfront_distribution" "this" {
       max_ttl     = lookup(i.value, "max_ttl", null)
 
       dynamic "forwarded_values" {
-        for_each = lookup(i.value, "use_forwarded_values", false) ? [true] : []
+        for_each = lookup(i.value, "forwarded_values", [])
+        iterator = l
 
         content {
-          query_string            = lookup(i.value, "query_string", false)
-          query_string_cache_keys = lookup(i.value, "query_string_cache_keys", [])
-          headers                 = lookup(i.value, "headers", [])
+          query_string            = lookup(l.value, "query_string", false)
+          query_string_cache_keys = lookup(l.value, "query_string_cache_keys", [])
+          headers                 = lookup(l.value, "headers", [])
 
           cookies {
-            forward           = lookup(i.value, "cookies_forward", "none")
-            whitelisted_names = lookup(i.value, "cookies_whitelisted_names", null)
+            forward           = lookup(l.value, "cookies_forward", "none")
+            whitelisted_names = lookup(l.value, "cookies_whitelisted_names", null)
           }
         }
       }
@@ -211,16 +212,17 @@ resource "aws_cloudfront_distribution" "this" {
       max_ttl     = lookup(i.value, "max_ttl", null)
 
       dynamic "forwarded_values" {
-        for_each = lookup(i.value, "use_forwarded_values", false) ? [true] : []
+        for_each = lookup(i.value, "forwarded_values", [])
+        iterator = l
 
         content {
-          query_string            = lookup(i.value, "query_string", false)
-          query_string_cache_keys = lookup(i.value, "query_string_cache_keys", [])
-          headers                 = lookup(i.value, "headers", [])
+          query_string            = lookup(l.value, "query_string", false)
+          query_string_cache_keys = lookup(l.value, "query_string_cache_keys", [])
+          headers                 = lookup(l.value, "headers", [])
 
           cookies {
-            forward           = lookup(i.value, "cookies_forward", "none")
-            whitelisted_names = lookup(i.value, "cookies_whitelisted_names", null)
+            forward           = lookup(l.value, "cookies_forward", "none")
+            whitelisted_names = lookup(l.value, "cookies_whitelisted_names", null)
           }
         }
       }
