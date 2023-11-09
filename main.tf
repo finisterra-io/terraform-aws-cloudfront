@@ -166,7 +166,7 @@ resource "aws_cloudfront_distribution" "this" {
         iterator = l
 
         content {
-          event_type   = l.value.event_type
+          event_type   = lookup(l.value, "event_type", null)
           lambda_arn   = l.value.lambda_arn
           include_body = lookup(l.value, "include_body", null)
         }
@@ -177,7 +177,7 @@ resource "aws_cloudfront_distribution" "this" {
         iterator = f
 
         content {
-          event_type   = f.value.event_type
+          event_type   = lookup(f.value, "event_type", null)
           function_arn = f.value.function_arn
         }
       }
@@ -242,7 +242,7 @@ resource "aws_cloudfront_distribution" "this" {
         iterator = f
 
         content {
-          event_type   = f.value.event_type
+          event_type   = lookup(f.value, "event_type", null)
           function_arn = f.value.function_arn
         }
       }
