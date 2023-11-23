@@ -68,3 +68,9 @@ output "cloudfront_origin_access_controls_ids" {
   description = "The IDS of the origin access identities created"
   value       = local.create_origin_access_control ? [for v in aws_cloudfront_origin_access_control.this : v.id] : []
 }
+
+
+output "cloudfront_origin_access_identities" {
+  value       = { for id, identity in data.aws_cloudfront_origin_access_identities.this : id => identity }
+  description = "The map of CloudFront origin access identities."
+}

@@ -2,7 +2,6 @@ locals {
   create_origin_access_control = var.create_origin_access_control && length(keys(var.origin_access_control)) > 0
 }
 
-
 locals {
   unique_cloudfront_access_identities = toset([
     for _, value in var.origin : lookup(lookup(value, "s3_origin_config", {}), "cloudfront_access_identity", "")
@@ -25,12 +24,6 @@ data "aws_cloudfront_origin_access_identity" "this" {
   for_each = local.cloudfront_identity_map
 
   id = each.value
-}
-
-
-output "cloudfront_origin_access_identities" {
-  value       = { for id, identity in data.aws_cloudfront_origin_access_identities.this : id => identity }
-  description = "The map of CloudFront origin access identities."
 }
 
 resource "aws_cloudfront_origin_access_control" "this" {
