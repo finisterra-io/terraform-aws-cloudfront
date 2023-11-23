@@ -12,6 +12,12 @@ data "aws_cloudfront_origin_access_identities" "this" {
   comments = [each.key]
 }
 
+output "cloudfront_origin_access_identities" {
+  value       = { for k, v in data.aws_cloudfront_origin_access_identities.this : k => v.comments }
+  description = "The CloudFront origin access identities."
+}
+
+
 # data "aws_cloudfront_origin_access_identity" "this" {
 #   for_each = data.aws_cloudfront_origin_access_identities.this
 
