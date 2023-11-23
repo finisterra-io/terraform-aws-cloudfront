@@ -21,13 +21,13 @@ output "cloudfront_origin_access_identities" {
 }
 
 
-# # Iterate over the IDs instead of using one()
-# data "aws_cloudfront_origin_access_identity" "this" {
-#   for_each = local.unique_cloudfront_access_identities
+# Iterate over the IDs instead of using one()
+data "aws_cloudfront_origin_access_identity" "this" {
+  for_each = { for identity in local.unique_cloudfront_access_identities : identity => identity }
 
-#   # Assuming each identity corresponds to exactly one ID
-#   id = try(element(data.aws_cloudfront_origin_access_identities.this[each.key].ids, 0), "")
-# }
+  # Assuming each identity corresponds to exactly one ID
+  id = try(element(data.aws_cloudfront_origin_access_identities.this[each.key].ids, 0), "")
+}
 
 # resource "aws_cloudfront_origin_access_control" "this" {
 #   for_each = local.create_origin_access_control ? var.origin_access_control : {}
