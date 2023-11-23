@@ -85,7 +85,7 @@ resource "aws_cloudfront_distribution" "this" {
 
         content {
           # origin_access_identity = lookup(s3_origin_config.value, "cloudfront_access_identity_path", lookup(lookup(aws_cloudfront_origin_access_identity.this, lookup(s3_origin_config.value, "origin_access_identity", ""), {}), "cloudfront_access_identity_path", null))
-          origin_access_identity = data.aws_cloudfront_origin_access_identity.this[lookup(s3_origin_config.value, "origin_access_identity", "")].cloudfront_access_identity_path
+          origin_access_identity = data.aws_cloudfront_origin_access_identity.this[lookup(s3_origin_config.value, "cloudfront_access_identity", "")].cloudfront_access_identity_path
         }
       }
 
