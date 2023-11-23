@@ -4,17 +4,16 @@ locals {
 }
 
 
-data "aws_cloudfront_origin_access_identities" "this" {
-  for_each = {
-    for key, value in var.origin : key => value
+locals {
+  unique_cloudfront_access_identities = toset([
+    for _, value in var.origin : value.s3_origin_config.cloudfront_access_identity
     if value.s3_origin_config != null && value.s3_origin_config.cloudfront_access_identity != null
-  }
-  comments = [each.key]
+  ])
 }
 
-output "cloudfront_origin_access_identities" {
-  value       = { for k, v in data.aws_cloudfront_origin_access_identities.this : k => v.comments }
-  description = "The CloudFront origin access identities."
+data "aws_cloudfront_origin_access_identities" "this" {
+  for_each = { for identity in local.unique_cloudfront_access_identities : identity => identity }
+  comments = [each.value]
 }
 
 
