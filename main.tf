@@ -5,8 +5,8 @@ locals {
 
 locals {
   unique_cloudfront_access_identities = toset([
-    for _, value in var.origin : lookup(value, "s3_origin_config", {}).cloudfront_access_identity
-    if lookup(value, "s3_origin_config", {}) != {} && lookup(value.s3_origin_config, "cloudfront_access_identity", "") != ""
+    for _, value in var.origin : lookup(lookup(value, "s3_origin_config", {}), "cloudfront_access_identity", "")
+    if lookup(value, "s3_origin_config", {}) != {} && lookup(lookup(value, "s3_origin_config", {}), "cloudfront_access_identity", "") != ""
   ])
 }
 
