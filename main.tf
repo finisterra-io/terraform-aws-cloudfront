@@ -17,11 +17,11 @@ data "aws_cloudfront_origin_access_identities" "this" {
 }
 
 
-# data "aws_cloudfront_origin_access_identity" "this" {
-#   for_each = data.aws_cloudfront_origin_access_identities.this
+data "aws_cloudfront_origin_access_identity" "this" {
+  for_each = { for identity in local.unique_cloudfront_access_identities : identity => identity }
 
-#   id = one(each.value.ids)
-# }
+  id = one(data.aws_cloudfront_origin_access_identities.this[each.key].ids)
+}
 
 # resource "aws_cloudfront_origin_access_identity" "this" {
 #   for_each = local.create_origin_access_identity ? var.origin_access_identities : {}
