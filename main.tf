@@ -19,7 +19,7 @@ data "aws_cloudfront_origin_access_identities" "this" {
 data "aws_cloudfront_origin_access_identity" "this" {
   for_each = { for identity in local.unique_cloudfront_access_identities : identity => identity }
 
-  id = data.aws_cloudfront_origin_access_identities.this[each.key][0].ids
+  id = one(data.aws_cloudfront_origin_access_identities.this[each.key].ids)
 
 }
 
