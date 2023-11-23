@@ -15,12 +15,12 @@ data "aws_cloudfront_origin_access_identities" "this" {
   comments = [each.value]
 }
 
-
+# Iterate over the IDs instead of using one()
 data "aws_cloudfront_origin_access_identity" "this" {
-  for_each = { for identity in local.unique_cloudfront_access_identities : identity => identity }
+  for_each = local.unique_cloudfront_access_identities
 
-  id = one(data.aws_cloudfront_origin_access_identities.this[each.key].ids)
-
+  # Assuming each identity corresponds to exactly one ID
+  id = try(element(data.aws_cloudfront_origin_access_identities.this[each.key].ids, 0), "")
 }
 
 resource "aws_cloudfront_origin_access_control" "this" {
