@@ -9,7 +9,7 @@ data "aws_cloudfront_origin_access_identities" "this" {
     for key, value in var.origin : key => value
     if value.s3_origin_config != null && value.s3_origin_config.cloudfront_access_identity != null
   }
-  comments = each.key
+  comments = [each.key]
 }
 
 data "aws_cloudfront_origin_access_identity" "this" {
