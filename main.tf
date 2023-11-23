@@ -19,7 +19,9 @@ data "aws_cloudfront_origin_access_identities" "this" {
 data "aws_cloudfront_origin_access_identity" "this" {
   for_each = { for identity in local.unique_cloudfront_access_identities : identity => identity }
 
-  id = one(data.aws_cloudfront_origin_access_identities.this[each.key].ids)
+  # id = one(data.aws_cloudfront_origin_access_identities.this[each.key].ids)
+  id = one([for oai in aws_cloudfront_origin_access_identity.oai : oai.id if oai.comment == each.key])
+
 }
 
 resource "aws_cloudfront_origin_access_control" "this" {
