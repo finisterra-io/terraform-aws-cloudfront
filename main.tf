@@ -1,6 +1,5 @@
 locals {
-  create_origin_access_identity = var.create_origin_access_identity && length(keys(var.origin_access_identities)) > 0
-  create_origin_access_control  = var.create_origin_access_control && length(keys(var.origin_access_control)) > 0
+  create_origin_access_control = var.create_origin_access_control && length(keys(var.origin_access_control)) > 0
 }
 
 
@@ -21,16 +20,6 @@ data "aws_cloudfront_origin_access_identity" "this" {
   for_each = { for identity in local.unique_cloudfront_access_identities : identity => identity }
 
   id = one(data.aws_cloudfront_origin_access_identities.this[each.key].ids)
-}
-
-resource "aws_cloudfront_origin_access_identity" "this" {
-  for_each = local.create_origin_access_identity ? var.origin_access_identities : {}
-
-  comment = each.value
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
 resource "aws_cloudfront_origin_access_control" "this" {

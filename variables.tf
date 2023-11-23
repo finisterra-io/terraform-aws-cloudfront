@@ -10,11 +10,6 @@ variable "create_origin_access_identity" {
   default     = false
 }
 
-variable "origin_access_identities" {
-  description = "Map of CloudFront origin access identities (value as a comment)"
-  type        = map(string)
-  default     = {}
-}
 
 variable "create_origin_access_control" {
   description = "Controls if CloudFront origin access control should be created"
