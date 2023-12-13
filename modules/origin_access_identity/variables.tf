@@ -1,5 +1,5 @@
-variable "origin_access_identities" {
-  description = "Map of CloudFront origin access identities (value as a comment)"
-  type        = map(string)
-  default     = {}
+variable "comment" {
+  description = "Any comments you want to include about the distribution."
+  type        = string
+  default     = null
 }
