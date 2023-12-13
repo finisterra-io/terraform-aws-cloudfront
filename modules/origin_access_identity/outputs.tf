@@ -12,3 +12,8 @@ output "cloudfront_origin_access_identity_iam_arns" {
   description = "The IAM arns of the origin access identities created"
   value       = [for v in aws_cloudfront_origin_access_identity.this : v.iam_arn]
 }
+
+output "cloudfront_access_identity_path" {
+  description = "The path of the origin access identities created"
+  value       = [for v in aws_cloudfront_origin_access_identity.this : v.cloudfront_access_identity_path]
+}

@@ -15,16 +15,16 @@ locals {
   }
 }
 
-data "aws_cloudfront_origin_access_identities" "this" {
-  for_each = { for identity in local.unique_cloudfront_access_identities : identity => identity }
-  comments = [each.value]
-}
+# data "aws_cloudfront_origin_access_identities" "this" {
+#   for_each = { for identity in local.unique_cloudfront_access_identities : identity => identity }
+#   comments = [each.value]
+# }
 
-data "aws_cloudfront_origin_access_identity" "this" {
-  for_each = local.cloudfront_identity_map
+# data "aws_cloudfront_origin_access_identity" "this" {
+#   for_each = local.cloudfront_identity_map
 
-  id = each.value
-}
+#   id = each.value
+# }
 
 resource "aws_cloudfront_origin_access_control" "this" {
   for_each = local.create_origin_access_control ? var.origin_access_control : {}
@@ -77,8 +77,8 @@ resource "aws_cloudfront_distribution" "this" {
         for_each = length(keys(lookup(origin.value, "s3_origin_config", {}))) == 0 ? [] : [lookup(origin.value, "s3_origin_config", {})]
 
         content {
-          # origin_access_identity = lookup(s3_origin_config.value, "cloudfront_access_identity_path", lookup(lookup(aws_cloudfront_origin_access_identity.this, lookup(s3_origin_config.value, "origin_access_identity", ""), {}), "cloudfront_access_identity_path", null))
-          origin_access_identity = data.aws_cloudfront_origin_access_identity.this[s3_origin_config.value.cloudfront_access_identity].cloudfront_access_identity_path
+          origin_access_identity = s3_origin_config.value.origin_access_identity
+          # origin_access_identity = data.aws_cloudfront_origin_access_identity.this[s3_origin_config.value.cloudfront_access_identity].cloudfront_access_identity_path
         }
       }
 
