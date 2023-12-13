@@ -10,7 +10,7 @@ resource "aws_cloudfront_cache_policy" "this" {
       cookie_behavior = var.cookie_behavior
 
       dynamic "cookies" {
-        for_each = var.cookies != [] ? [1] : []
+        for_each = length(var.cookies) > 0 ? [1] : []
         content {
           items = var.cookies
         }
@@ -20,7 +20,7 @@ resource "aws_cloudfront_cache_policy" "this" {
       header_behavior = var.header_behavior
 
       dynamic "headers" {
-        for_each = var.headers != [] ? [1] : []
+        for_each = length(var.headers) > 0 ? [1] : []
         content {
           items = var.headers
         }
@@ -30,7 +30,7 @@ resource "aws_cloudfront_cache_policy" "this" {
       query_string_behavior = var.query_string_behavior
 
       dynamic "query_strings" {
-        for_each = var.query_strings != [] ? [1] : []
+        for_each = length(var.query_strings) > 0 ? [1] : []
         content {
           items = var.query_strings
         }
