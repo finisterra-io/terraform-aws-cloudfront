@@ -8,12 +8,12 @@ locals {
     if lookup(value, "s3_origin_config", {}) != {} && lookup(lookup(value, "s3_origin_config", {}), "cloudfront_access_identity", "") != ""
   ])
 
-  # Safely access the first element from the set
-  cloudfront_identity_map = {
-    for key, value in data.aws_cloudfront_origin_access_identities.this :
-    key => element(tolist(value.ids), 0)
-  }
-}
+#   # Safely access the first element from the set
+#   cloudfront_identity_map = {
+#     for key, value in data.aws_cloudfront_origin_access_identities.this :
+#     key => element(tolist(value.ids), 0)
+#   }
+# }
 
 # data "aws_cloudfront_origin_access_identities" "this" {
 #   for_each = { for identity in local.unique_cloudfront_access_identities : identity => identity }
