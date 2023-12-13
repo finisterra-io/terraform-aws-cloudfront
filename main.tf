@@ -2,11 +2,11 @@ locals {
   create_origin_access_control = var.create_origin_access_control && length(keys(var.origin_access_control)) > 0
 }
 
-locals {
-  unique_cloudfront_access_identities = toset([
-    for _, value in var.origin : lookup(lookup(value, "s3_origin_config", {}), "cloudfront_access_identity", "")
-    if lookup(value, "s3_origin_config", {}) != {} && lookup(lookup(value, "s3_origin_config", {}), "cloudfront_access_identity", "") != ""
-  ])
+# locals {
+#   unique_cloudfront_access_identities = toset([
+#     for _, value in var.origin : lookup(lookup(value, "s3_origin_config", {}), "cloudfront_access_identity", "")
+#     if lookup(value, "s3_origin_config", {}) != {} && lookup(lookup(value, "s3_origin_config", {}), "cloudfront_access_identity", "") != ""
+#   ])
 
 #   # Safely access the first element from the set
 #   cloudfront_identity_map = {
