@@ -1,7 +1,7 @@
 output "id" {
-  value = aws_cloudfront_distribution.cache_policy.this[0].id
+  value = aws_cloudfront_distribution.this[0].id
 }
 
 output "arn" {
-  value = aws_cloudfront_distribution.cache_policy.this[0].arn
+  value = aws_cloudfront_distribution.this[0].arn
 }
