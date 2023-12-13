@@ -8,20 +8,32 @@ resource "aws_cloudfront_cache_policy" "this" {
   parameters_in_cache_key_and_forwarded_to_origin {
     cookies_config {
       cookie_behavior = var.cookie_behavior
-      cookies {
-        items = var.cookies
+
+      dynamic "cookies" {
+        for_each = var.cookies != [] ? [1] : []
+        content {
+          items = var.cookies
+        }
       }
     }
     headers_config {
       header_behavior = var.header_behavior
-      headers {
-        items = var.headers
+
+      dynamic "headers" {
+        for_each = var.headers != [] ? [1] : []
+        content {
+          items = var.headers
+        }
       }
     }
     query_strings_config {
       query_string_behavior = var.query_string_behavior
-      query_strings {
-        items = var.query_strings
+
+      dynamic "query_strings" {
+        for_each = var.query_strings != [] ? [1] : []
+        content {
+          items = var.query_strings
+        }
       }
     }
     enable_accept_encoding_brotli = var.enable_accept_encoding_brotli
