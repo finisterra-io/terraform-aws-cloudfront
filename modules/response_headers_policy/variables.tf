@@ -44,3 +44,4 @@ variable "security_headers_config" {
   type        = list(any)
   default     = []
 }
+

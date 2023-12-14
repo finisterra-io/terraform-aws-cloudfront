@@ -35,12 +35,7 @@ resource "aws_cloudfront_response_headers_policy" "this" {
         }
       }
 
-      dynamic "access_control_max_age_sec" {
-        for_each = cors_config.value.access_control_max_age_sec
-        content {
-          max_age_sec = access_control_max_age_sec.value.max_age_sec
-        }
-      }
+      access_control_max_age_sec = cors_config.value.access_control_max_age_sec
 
       origin_override = cors_config.value.origin_override
     }
