@@ -1,4 +1,4 @@
-resource "aws_cloudfront_origin_request_policy" "example" {
+resource "aws_cloudfront_origin_request_policy" "this" {
   count   = var.enabled ? 1 : 0
   name    = var.name
   comment = var.comment
