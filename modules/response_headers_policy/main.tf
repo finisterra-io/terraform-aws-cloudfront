@@ -1,4 +1,5 @@
 resource "aws_cloudfront_response_headers_policy" "this" {
+  count   = var.enabled ? 1 : 0
   name    = var.name
   comment = var.comment
 
