@@ -1,8 +1,7 @@
 name: "Validate PR title"
 
 permissions:
-  pull-requests: write
-  contents: write
+  pull-requests: read
 
 on:
   pull_request_target:
@@ -18,7 +17,7 @@ jobs:
     steps:
       # Please look up the latest version from
       # https://github.com/amannn/action-semantic-pull-request/releases
-      - uses: amannn/action-semantic-pull-request@v5.0.2
+      - uses: amannn/action-semantic-pull-request@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
