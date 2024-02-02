@@ -1,5 +1,9 @@
 name: "Validate PR title"
 
+permissions:
+  pull-requests: write
+  contents: write
+
 on:
   pull_request_target:
     types:
