@@ -4,4 +4,8 @@ resource "aws_cloudfront_function" "this" {
   comment = var.comment
   runtime = var.runtime
   code    = var.code
+
+  lifecycle {
+    ignore_changes = [publish]
+  }
 }
