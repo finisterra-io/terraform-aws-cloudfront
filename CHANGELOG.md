@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.0.2](https://github.com/finisterra-io/terraform-aws-cloudfront/compare/v1.0.1...v1.0.2) (2024-02-19)
+
+
+### Bug Fixes
+
+* drift ([20a08c7](https://github.com/finisterra-io/terraform-aws-cloudfront/commit/20a08c73c91be9a5f94fba492fad958153d5f2e4))
+
 ### [1.0.1](https://github.com/finisterra-io/terraform-aws-cloudfront/compare/v1.0.0...v1.0.1) (2024-02-07)
 
 
