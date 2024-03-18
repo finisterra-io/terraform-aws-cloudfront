@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.0.3](https://github.com/finisterra-io/terraform-aws-cloudfront/compare/v1.0.2...v1.0.3) (2024-03-18)
+
+
+### Bug Fixes
+
+* add tfsec ([e64955d](https://github.com/finisterra-io/terraform-aws-cloudfront/commit/e64955d52f225f5840c3cc3d90c2dae21c015327))
+
 ### [1.0.2](https://github.com/finisterra-io/terraform-aws-cloudfront/compare/v1.0.1...v1.0.2) (2024-02-19)
 
 

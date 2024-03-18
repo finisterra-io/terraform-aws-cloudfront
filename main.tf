@@ -2,6 +2,7 @@ locals {
   create_origin_access_control = var.create_origin_access_control && length(keys(var.origin_access_control)) > 0
 }
 
+
 resource "aws_cloudfront_origin_access_control" "this" {
   for_each = local.create_origin_access_control ? var.origin_access_control : {}
 
@@ -13,7 +14,7 @@ resource "aws_cloudfront_origin_access_control" "this" {
   signing_protocol                  = each.value["signing_protocol"]
 }
 
-#already in dynamic "logging_config"
+#already defined in dynamic "logging_config" 
 #tfsec:ignore:aws-cloudfront-enable-logging
 resource "aws_cloudfront_distribution" "this" {
   count = var.create_distribution ? 1 : 0
