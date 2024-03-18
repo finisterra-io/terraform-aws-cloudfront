@@ -112,7 +112,7 @@ variable "viewer_certificate" {
   type        = any
   default = {
     cloudfront_default_certificate = true
-    minimum_protocol_version       = "TLSv1"
+    minimum_protocol_version       = "TLSv1.2_2021"
   }
 }
 
