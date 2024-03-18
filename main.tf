@@ -2,6 +2,7 @@ locals {
   create_origin_access_control = var.create_origin_access_control && length(keys(var.origin_access_control)) > 0
 }
 
+
 resource "aws_cloudfront_origin_access_control" "this" {
   for_each = local.create_origin_access_control ? var.origin_access_control : {}
 
@@ -13,6 +14,8 @@ resource "aws_cloudfront_origin_access_control" "this" {
   signing_protocol                  = each.value["signing_protocol"]
 }
 
+#already defined in dynamic "logging_config" 
+#tfsec:ignore:aws-cloudfront-enable-logging
 resource "aws_cloudfront_distribution" "this" {
   count = var.create_distribution ? 1 : 0
 
@@ -245,7 +248,7 @@ resource "aws_cloudfront_distribution" "this" {
     cloudfront_default_certificate = lookup(var.viewer_certificate, "cloudfront_default_certificate", null)
     iam_certificate_id             = lookup(var.viewer_certificate, "iam_certificate_id", null)
 
-    minimum_protocol_version = lookup(var.viewer_certificate, "minimum_protocol_version", "TLSv1")
+    minimum_protocol_version = lookup(var.viewer_certificate, "minimum_protocol_version", "TLSv1.2_2021")
     ssl_support_method       = lookup(var.viewer_certificate, "ssl_support_method", null)
   }
 
