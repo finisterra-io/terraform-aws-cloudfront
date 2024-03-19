@@ -113,66 +113,61 @@ resource "aws_cloudfront_distribution" "this" {
     }
   }
 
-  dynamic "default_cache_behavior" {
-    for_each = [var.default_cache_behavior]
-    iterator = i
+  default_cache_behavior {
+    target_origin_id       = var.default_cache_behavior["target_origin_id"]
+    viewer_protocol_policy = lookup(var.default_cache_behavior, "viewer_protocol_policy")
 
-    content {
-      target_origin_id       = i.value["target_origin_id"]
-      viewer_protocol_policy = i.value["viewer_protocol_policy"]
+    allowed_methods           = lookup(var.default_cache_behavior, "allowed_methods", ["GET", "HEAD", "OPTIONS"])
+    cached_methods            = lookup(var.default_cache_behavior, "cached_methods", ["GET", "HEAD"])
+    compress                  = lookup(var.default_cache_behavior, "compress", null)
+    field_level_encryption_id = lookup(var.default_cache_behavior, "field_level_encryption_id", null)
+    smooth_streaming          = lookup(var.default_cache_behavior, "smooth_streaming", null)
+    trusted_signers           = lookup(var.default_cache_behavior, "trusted_signers", null)
+    trusted_key_groups        = lookup(var.default_cache_behavior, "trusted_key_groups", null)
 
-      allowed_methods           = lookup(i.value, "allowed_methods", ["GET", "HEAD", "OPTIONS"])
-      cached_methods            = lookup(i.value, "cached_methods", ["GET", "HEAD"])
-      compress                  = lookup(i.value, "compress", null)
-      field_level_encryption_id = lookup(i.value, "field_level_encryption_id", null)
-      smooth_streaming          = lookup(i.value, "smooth_streaming", null)
-      trusted_signers           = lookup(i.value, "trusted_signers", null)
-      trusted_key_groups        = lookup(i.value, "trusted_key_groups", null)
+    cache_policy_id            = lookup(var.default_cache_behavior, "cache_policy_id", null) != null ? var.default_cache_behavior.cache_policy_id : try(data.aws_cloudfront_cache_policy.default_cache_behavior[0].id, null)
+    origin_request_policy_id   = lookup(var.default_cache_behavior, "origin_request_policy_id", null)
+    response_headers_policy_id = lookup(var.default_cache_behavior, "response_headers_policy_id", null)
+    realtime_log_config_arn    = lookup(var.default_cache_behavior, "realtime_log_config_arn", null)
 
-      cache_policy_id            = lookup(i.value, "cache_policy_id", null) != null ? i.value.cache_policy_id : try(data.aws_cloudfront_cache_policy.default_cache_behavior[0].id, null)
-      origin_request_policy_id   = lookup(i.value, "origin_request_policy_id", null)
-      response_headers_policy_id = lookup(i.value, "response_headers_policy_id", null)
-      realtime_log_config_arn    = lookup(i.value, "realtime_log_config_arn", null)
+    min_ttl     = lookup(var.default_cache_behavior, "min_ttl", null)
+    default_ttl = lookup(var.default_cache_behavior, "default_ttl", null)
+    max_ttl     = lookup(var.default_cache_behavior, "max_ttl", null)
 
-      min_ttl     = lookup(i.value, "min_ttl", null)
-      default_ttl = lookup(i.value, "default_ttl", null)
-      max_ttl     = lookup(i.value, "max_ttl", null)
+    dynamic "forwarded_values" {
+      for_each = lookup(var.default_cache_behavior, "forwarded_values", [])
+      iterator = l
 
-      dynamic "forwarded_values" {
-        for_each = lookup(i.value, "forwarded_values", [])
-        iterator = l
+      content {
+        query_string            = lookup(l.value, "query_string", false)
+        query_string_cache_keys = lookup(l.value, "query_string_cache_keys", [])
+        headers                 = lookup(l.value, "headers", [])
 
-        content {
-          query_string            = lookup(l.value, "query_string", false)
-          query_string_cache_keys = lookup(l.value, "query_string_cache_keys", [])
-          headers                 = lookup(l.value, "headers", [])
-
-          cookies {
-            forward           = lookup(l.value, "cookies_forward", "none")
-            whitelisted_names = lookup(l.value, "cookies_whitelisted_names", null)
-          }
+        cookies {
+          forward           = lookup(l.value, "cookies_forward", "none")
+          whitelisted_names = lookup(l.value, "cookies_whitelisted_names", null)
         }
       }
+    }
 
-      dynamic "lambda_function_association" {
-        for_each = lookup(i.value, "lambda_function_association", [])
-        iterator = l
+    dynamic "lambda_function_association" {
+      for_each = lookup(var.default_cache_behavior, "lambda_function_association", [])
+      iterator = l
 
-        content {
-          event_type   = l.key
-          lambda_arn   = l.value.lambda_arn
-          include_body = lookup(l.value, "include_body", null)
-        }
+      content {
+        event_type   = l.key
+        lambda_arn   = l.value.lambda_arn
+        include_body = lookup(l.value, "include_body", null)
       }
+    }
 
-      dynamic "function_association" {
-        for_each = lookup(i.value, "function_association", [])
-        iterator = f
+    dynamic "function_association" {
+      for_each = lookup(var.default_cache_behavior, "function_association", [])
+      iterator = f
 
-        content {
-          event_type   = f.key
-          function_arn = f.value.function_arn
-        }
+      content {
+        event_type   = f.key
+        function_arn = f.value.function_arn
       }
     }
   }
